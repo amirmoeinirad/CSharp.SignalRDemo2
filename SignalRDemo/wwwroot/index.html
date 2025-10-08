@@ -1,0 +1,38 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+    
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SignalR Notification Example</title>
+        <!-- The SignalR JavaScript library for the client side -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+    </head>
+
+    <body>
+    
+        <h2>Server Notifications</h2>
+        <ul id="messages"></ul>
+
+        <script>
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:7122/NotificationHub")  // SignalR Backend Server
+                .build();
+
+            // Listens for "ReceiveMessage" events and displays messages on the webpage.
+            connection.on("ReceiveMessage", function (message) {
+                const li = document.createElement("li");
+                li.textContent = message;
+                document.getElementById("messages").appendChild(li);
+            });
+
+            connection.start().catch(err => console.error(err.toString()));
+        </script>
+
+    </body>
+
+</html>
